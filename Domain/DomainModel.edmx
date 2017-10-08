@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TeamDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TeamDB.dbo.T001_Teams' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="T001_Teams">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TeamDB.dbo.T002_Player' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="T002_Player">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Prename" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prename" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TeamDB.dbo.T003_Event' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="T003_Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="TeamDBModelStoreContainer">
+          <EntitySet Name="T001_Teams" EntityType="Self.T001_Teams" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [T001_Teams].[Id] AS [Id], 
+    [T001_Teams].[Name] AS [Name]
+    FROM [dbo].[T001_Teams] AS [T001_Teams]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="T002_Player" EntityType="Self.T002_Player" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [T002_Player].[Id] AS [Id], 
+    [T002_Player].[Prename] AS [Prename], 
+    [T002_Player].[Surname] AS [Surname], 
+    [T002_Player].[Number] AS [Number], 
+    [T002_Player].[TeamId] AS [TeamId]
+    FROM [dbo].[T002_Player] AS [T002_Player]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="T003_Event" EntityType="Self.T003_Event" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [T003_Event].[Id] AS [Id], 
+    [T003_Event].[Description] AS [Description]
+    FROM [dbo].[T003_Event] AS [T003_Event]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TeamDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="T001_Teams">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="T002_Player">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Prename" />
+            <PropertyRef Name="Surname" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="TeamDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T001_Teams" EntityType="Self.T001_Teams" />
+          <EntitySet Name="T002_Player" EntityType="Self.T002_Player" />
+          <EntitySet Name="T003_Event" EntityType="TeamDBModel.T003_Event" />
+        </EntityContainer>
+        <EntityType Name="T003_Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TeamDBModelStoreContainer" CdmEntityContainer="TeamDBEntities">
+          <EntitySetMapping Name="T001_Teams">
+            <EntityTypeMapping TypeName="TeamDBModel.T001_Teams">
+              <MappingFragment StoreEntitySet="T001_Teams">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T002_Player">
+            <EntityTypeMapping TypeName="TeamDBModel.T002_Player">
+              <MappingFragment StoreEntitySet="T002_Player">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Prename" ColumnName="Prename" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T003_Event">
+            <EntityTypeMapping TypeName="TeamDBModel.T003_Event">
+              <MappingFragment StoreEntitySet="T003_Event">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

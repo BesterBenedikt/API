@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Service.Viewmodels.DisplayPlayer>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Id
+        </td>
+        <td>
+            @item.Prename
+        </td>
+        <td>
+            @item.Surname
+        </td>
+        <td>
+            @item.Number
+        </td>
+
+        <td>
+            @item.TeamName    
+        </td>
+
+    </tr>
+}
+
+</table>
