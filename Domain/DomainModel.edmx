@@ -5,25 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TeamDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TeamDB.dbo.T001_Teams' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T001_Teams">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TeamDB.dbo.T002_Player' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T002_Player">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Prename" />
-            <PropertyRef Name="Surname" />
-            <PropertyRef Name="Number" />
-            <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Prename" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -31,77 +22,218 @@ warning 6002: The table/view 'TeamDB.dbo.T002_Player' does not have a primary ke
           <Property Name="Number" Type="int" Nullable="false" />
           <Property Name="TeamId" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TeamDB.dbo.T003_Event' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="T003_Event">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="T004_Match">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamID_1_FK_T001" Type="int" Nullable="false" />
+          <Property Name="TeamID_2_FK_T001" Type="int" Nullable="false" />
+          <Property Name="Score_Team_1" Type="int" />
+          <Property Name="Score_Team_2" Type="int" />
+          <Property Name="MatchDate" Type="datetime" />
+          <Property Name="EventID_FK_T003" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_T002_Player_T001_Teams">
+          <End Role="T001_Teams" Type="Self.T001_Teams" Multiplicity="1" />
+          <End Role="T002_Player" Type="Self.T002_Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T002_Player">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T001_Teams">
+          <End Role="T001_Teams" Type="Self.T001_Teams" Multiplicity="1" />
+          <End Role="T004_Match" Type="Self.T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="TeamID_2_FK_T001" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T001_Teams_1">
+          <End Role="T001_Teams" Type="Self.T001_Teams" Multiplicity="1" />
+          <End Role="T004_Match" Type="Self.T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="TeamID_1_FK_T001" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T003_Event">
+          <End Role="T003_Event" Type="Self.T003_Event" Multiplicity="1" />
+          <End Role="T004_Match" Type="Self.T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T003_Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="EventID_FK_T003" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="TeamDBModelStoreContainer">
-          <EntitySet Name="T001_Teams" EntityType="Self.T001_Teams" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [T001_Teams].[Id] AS [Id], 
-    [T001_Teams].[Name] AS [Name]
-    FROM [dbo].[T001_Teams] AS [T001_Teams]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="T002_Player" EntityType="Self.T002_Player" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [T002_Player].[Id] AS [Id], 
-    [T002_Player].[Prename] AS [Prename], 
-    [T002_Player].[Surname] AS [Surname], 
-    [T002_Player].[Number] AS [Number], 
-    [T002_Player].[TeamId] AS [TeamId]
-    FROM [dbo].[T002_Player] AS [T002_Player]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="T003_Event" EntityType="Self.T003_Event" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [T003_Event].[Id] AS [Id], 
-    [T003_Event].[Description] AS [Description]
-    FROM [dbo].[T003_Event] AS [T003_Event]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="T001_Teams" EntityType="Self.T001_Teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T002_Player" EntityType="Self.T002_Player" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T003_Event" EntityType="Self.T003_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T004_Match" EntityType="Self.T004_Match" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_T002_Player_T001_Teams" Association="Self.FK_T002_Player_T001_Teams">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T002_Player" EntitySet="T002_Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T001_Teams" Association="Self.FK_T004_Match_T001_Teams">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T001_Teams_1" Association="Self.FK_T004_Match_T001_Teams_1">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T003_Event" Association="Self.FK_T004_Match_T003_Event">
+            <End Role="T003_Event" EntitySet="T003_Event" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TeamDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TeamDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="T001_Teams" EntityType="TeamDBModel.T001_Teams" />
+          <EntitySet Name="T002_Player" EntityType="TeamDBModel.T002_Player" />
+          <EntitySet Name="T003_Event" EntityType="TeamDBModel.T003_Event" />
+          <EntitySet Name="T004_Match" EntityType="TeamDBModel.T004_Match" />
+          <AssociationSet Name="FK_T002_Player_T001_Teams" Association="TeamDBModel.FK_T002_Player_T001_Teams">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T002_Player" EntitySet="T002_Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T001_Teams" Association="TeamDBModel.FK_T004_Match_T001_Teams">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T001_Teams_1" Association="TeamDBModel.FK_T004_Match_T001_Teams_1">
+            <End Role="T001_Teams" EntitySet="T001_Teams" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
+          <AssociationSet Name="FK_T004_Match_T003_Event" Association="TeamDBModel.FK_T004_Match_T003_Event">
+            <End Role="T003_Event" EntitySet="T003_Event" />
+            <End Role="T004_Match" EntitySet="T004_Match" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="T001_Teams">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T002_Player" Relationship="TeamDBModel.FK_T002_Player_T001_Teams" FromRole="T001_Teams" ToRole="T002_Player" />
+          <NavigationProperty Name="T004_Match" Relationship="TeamDBModel.FK_T004_Match_T001_Teams" FromRole="T001_Teams" ToRole="T004_Match" />
+          <NavigationProperty Name="T004_Match1" Relationship="TeamDBModel.FK_T004_Match_T001_Teams_1" FromRole="T001_Teams" ToRole="T004_Match" />
         </EntityType>
         <EntityType Name="T002_Player">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Prename" />
-            <PropertyRef Name="Surname" />
-            <PropertyRef Name="Number" />
-            <PropertyRef Name="TeamId" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Prename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Number" Type="Int32" Nullable="false" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="T001_Teams" Relationship="TeamDBModel.FK_T002_Player_T001_Teams" FromRole="T002_Player" ToRole="T001_Teams" />
         </EntityType>
-        <EntityContainer Name="TeamDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="T001_Teams" EntityType="Self.T001_Teams" />
-          <EntitySet Name="T002_Player" EntityType="Self.T002_Player" />
-          <EntitySet Name="T003_Event" EntityType="TeamDBModel.T003_Event" />
-        </EntityContainer>
         <EntityType Name="T003_Event">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T004_Match" Relationship="TeamDBModel.FK_T004_Match_T003_Event" FromRole="T003_Event" ToRole="T004_Match" />
         </EntityType>
-      </Schema>
+        <EntityType Name="T004_Match">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamID_1_FK_T001" Type="Int32" Nullable="false" />
+          <Property Name="TeamID_2_FK_T001" Type="Int32" Nullable="false" />
+          <Property Name="Score_Team_1" Type="Int32" />
+          <Property Name="Score_Team_2" Type="Int32" />
+          <Property Name="MatchDate" Type="DateTime" Precision="3" />
+          <Property Name="EventID_FK_T003" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T001_Teams" Relationship="TeamDBModel.FK_T004_Match_T001_Teams" FromRole="T004_Match" ToRole="T001_Teams" />
+          <NavigationProperty Name="T001_Teams1" Relationship="TeamDBModel.FK_T004_Match_T001_Teams_1" FromRole="T004_Match" ToRole="T001_Teams" />
+          <NavigationProperty Name="T003_Event" Relationship="TeamDBModel.FK_T004_Match_T003_Event" FromRole="T004_Match" ToRole="T003_Event" />
+        </EntityType>
+        <Association Name="FK_T002_Player_T001_Teams">
+          <End Type="TeamDBModel.T001_Teams" Role="T001_Teams" Multiplicity="1" />
+          <End Type="TeamDBModel.T002_Player" Role="T002_Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T002_Player">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T001_Teams">
+          <End Type="TeamDBModel.T001_Teams" Role="T001_Teams" Multiplicity="1" />
+          <End Type="TeamDBModel.T004_Match" Role="T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="TeamID_2_FK_T001" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T001_Teams_1">
+          <End Type="TeamDBModel.T001_Teams" Role="T001_Teams" Multiplicity="1" />
+          <End Type="TeamDBModel.T004_Match" Role="T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T001_Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="TeamID_1_FK_T001" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_T004_Match_T003_Event">
+          <End Type="TeamDBModel.T003_Event" Role="T003_Event" Multiplicity="1" />
+          <End Type="TeamDBModel.T004_Match" Role="T004_Match" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T003_Event">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T004_Match">
+              <PropertyRef Name="EventID_FK_T003" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -110,26 +242,41 @@ warning 6002: The table/view 'TeamDB.dbo.T003_Event' does not have a primary key
           <EntitySetMapping Name="T001_Teams">
             <EntityTypeMapping TypeName="TeamDBModel.T001_Teams">
               <MappingFragment StoreEntitySet="T001_Teams">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="T002_Player">
             <EntityTypeMapping TypeName="TeamDBModel.T002_Player">
               <MappingFragment StoreEntitySet="T002_Player">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Prename" ColumnName="Prename" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Prename" ColumnName="Prename" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="T003_Event">
             <EntityTypeMapping TypeName="TeamDBModel.T003_Event">
               <MappingFragment StoreEntitySet="T003_Event">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T004_Match">
+            <EntityTypeMapping TypeName="TeamDBModel.T004_Match">
+              <MappingFragment StoreEntitySet="T004_Match">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EventID_FK_T003" ColumnName="EventID_FK_T003" />
+                <ScalarProperty Name="MatchDate" ColumnName="MatchDate" />
+                <ScalarProperty Name="Score_Team_2" ColumnName="Score_Team_2" />
+                <ScalarProperty Name="Score_Team_1" ColumnName="Score_Team_1" />
+                <ScalarProperty Name="TeamID_2_FK_T001" ColumnName="TeamID_2_FK_T001" />
+                <ScalarProperty Name="TeamID_1_FK_T001" ColumnName="TeamID_1_FK_T001" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -28,5 +28,6 @@ namespace Domain
         public virtual DbSet<T001_Teams> T001_Teams { get; set; }
         public virtual DbSet<T002_Player> T002_Player { get; set; }
         public virtual DbSet<T003_Event> T003_Event { get; set; }
+        public virtual DbSet<T004_Match> T004_Match { get; set; }
     }
 }

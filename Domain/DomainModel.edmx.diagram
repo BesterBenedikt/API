@@ -5,9 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f9d46c659b5b472685b91085417ef5d8" Name="Diagram1">
-        <EntityTypeShape EntityType="TeamDBModel.T001_Teams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TeamDBModel.T002_Player" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="TeamDBModel.T003_Event" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="TeamDBModel.T001_Teams" Width="1.5" PointX="0.75" PointY="3.625" />
+        <EntityTypeShape EntityType="TeamDBModel.T002_Player" Width="1.5" PointX="3" PointY="7.5" />
+        <EntityTypeShape EntityType="TeamDBModel.T003_Event" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="TeamDBModel.T004_Match" Width="1.5" PointX="3" PointY="3.125" />
+        <AssociationConnector Association="TeamDBModel.FK_T002_Player_T001_Teams" />
+        <AssociationConnector Association="TeamDBModel.FK_T004_Match_T001_Teams" />
+        <AssociationConnector Association="TeamDBModel.FK_T004_Match_T001_Teams_1" />
+        <AssociationConnector Association="TeamDBModel.FK_T004_Match_T003_Event" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

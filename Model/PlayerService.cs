@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Domain;
 
 
 namespace Service
 {
     public class PlayerService
     {
-        public List<Domain.T002_Player> RawPlayers { get; }
-        public List<Viewmodels.DisplayPlayer> DisplayPlayers { get; }
+        public List<T002_Player> RawPlayers { get; }
+        public List<DisplayPlayer> DisplayPlayers { get; }
 
         public PlayerService()
         {
@@ -19,11 +20,11 @@ namespace Service
 
         }
 
-        private List<Domain.T002_Player> getRawPlayers()
+            private List<T002_Player> getRawPlayers()
         {
-            List<Domain.T002_Player> playerlist = new List<Domain.T002_Player>();
+            List<T002_Player> playerlist = new List<Domain.T002_Player>();
 
-            using (var dbc = new Domain.TeamDBEntities())
+            using (var dbc = new TeamDBEntities())
             {
                 return dbc.T002_Player.ToList();
             }
@@ -31,7 +32,6 @@ namespace Service
 
         private List<DisplayPlayer> getDisplayPlayers()
         {
-            
             var ts = new TeamService();
             var displayPlayers = new List<DisplayPlayer>();
             foreach (var rawPlayer in RawPlayers)
@@ -41,20 +41,15 @@ namespace Service
                 displayPlayer.TeamName = ts.getTeamNameById(rawPlayer.TeamId);
                 displayPlayers.Add(displayPlayer);
             }
-
             return displayPlayers;
-           
         }
 
-        public Domain.T002_Player getPlayerById(int id)
+        public T002_Player getPlayerById(int id)
         {
-            using (var dbc = new Domain.TeamDBEntities())
+            using (var dbc = new TeamDBEntities())
             {
                 return dbc.T002_Player.Where(player => player.Id == id).First();
             }
-        
-        
         }
-
     }
 }

@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TeamAPI.Models;
-
 namespace TeamAPI.Controllers
 {
     public class MatchController : ApiController
@@ -22,11 +20,11 @@ namespace TeamAPI.Controllers
             return "value";
         }
 
-        // POST api/<controller>
-        public void Post(Match match)
-        {
+        //// POST api/<controller>
+        //public void Post(Match match)
+        //{
             
-        }
+        //}
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)

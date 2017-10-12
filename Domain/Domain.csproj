@@ -74,6 +74,9 @@
     <Compile Include="T003_Event.cs">
       <DependentUpon>DomainModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="T004_Match.cs">
+      <DependentUpon>DomainModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

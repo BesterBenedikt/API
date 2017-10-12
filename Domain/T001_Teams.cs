@@ -14,7 +14,22 @@ namespace Domain
     
     public partial class T001_Teams
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public T001_Teams()
+        {
+            this.T002_Player = new HashSet<T002_Player>();
+            this.T004_Match = new HashSet<T004_Match>();
+            this.T004_Match1 = new HashSet<T004_Match>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<T002_Player> T002_Player { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<T004_Match> T004_Match { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<T004_Match> T004_Match1 { get; set; }
     }
 }

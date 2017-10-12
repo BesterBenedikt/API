@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventService.cs" />
     <Compile Include="PlayerService.cs" />
     <Compile Include="TeamService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
