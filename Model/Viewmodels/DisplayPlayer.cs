@@ -16,6 +16,8 @@ namespace Service.Viewmodels
 
         public string TeamName { get; set; }
 
+        public string profilePictureURL { get; set; }
+
         public void importRawPlayer(Domain.T002_Player rawPlayer)
         {
             Id = rawPlayer.Id;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Domain;
-
+using Model.StorageService;
 
 namespace Service
 {
@@ -33,12 +33,14 @@ namespace Service
         private List<DisplayPlayer> getDisplayPlayers()
         {
             var ts = new TeamService();
+            var ss = new StorageService();
             var displayPlayers = new List<DisplayPlayer>();
             foreach (var rawPlayer in RawPlayers)
             {
                 var displayPlayer = new DisplayPlayer();
                 displayPlayer.importRawPlayer(rawPlayer);
                 displayPlayer.TeamName = ts.getTeamNameById(rawPlayer.TeamId);
+                displayPlayer.profilePictureURL = ss.getURL(rawPlayer.Id.ToString());
                 displayPlayers.Add(displayPlayer);
             }
             return displayPlayers;

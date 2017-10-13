@@ -16,9 +16,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @item.Id
-        </td>
+  
         <td>
             @item.Prename
         </td>
@@ -31,6 +29,10 @@
 
         <td>
             @item.TeamName    
+        </td>
+        <td>
+            <img src="@item.profilePictureURL" alt="Alternate Text" />
+            
         </td>
 
     </tr>
