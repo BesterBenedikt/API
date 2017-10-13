@@ -9,6 +9,13 @@ namespace TeamMVC.Controllers
 {
     public class TeamController : Controller
     {
+        private TeamService ts;
+
+        public TeamController()
+        {
+            ts = new TeamService();
+        }
+
         // GET: Team
         public ActionResult Index()
         {
@@ -87,6 +94,12 @@ namespace TeamMVC.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Player(int id)
+        {
+            ts.getPlayersByTeamId(id);
+            return View(ts.getPlayersByTeamId(id));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,9 @@ namespace Service
 {
     public class TeamService
     {
-        public List<Domain.T001_Teams> teams { get; }
+
+
+public List<Domain.T001_Teams> teams { get; }
 
         public TeamService()
         {
@@ -26,7 +29,20 @@ namespace Service
 
         public string getTeamNameById(int id)
         {
-            return teams.Where(team => team.Id == id).First().Name;
+            using (var dbc = new Domain.TeamDBEntities())
+            {
+                return teams.Where(team => team.Id == id).First().Name;
+            }
+           
+        }
+
+        public List<T002_Player> getPlayersByTeamId(int id)
+        {
+            using (var dbc = new Domain.TeamDBEntities())
+            {
+                return dbc.T002_Player.Where(teamPlayer => teamPlayer.TeamId == id).ToList();
+            }
+            
         }
     }
 }

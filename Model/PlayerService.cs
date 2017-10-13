@@ -51,5 +51,11 @@ namespace Service
                 return dbc.T002_Player.Where(player => player.Id == id).First();
             }
         }
+
+        public List<T002_Player> getPlayersByTeam(T001_Teams team)
+        {
+            var c = team.T002_Player.ToList();
+            return team.T002_Player.ToList();
+        }
     }
 }
