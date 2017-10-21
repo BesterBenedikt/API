@@ -24,7 +24,7 @@ namespace TeamMVC.Controllers
         // GET: Player
         public ActionResult Index()
         {
-            return View(ps.DisplayPlayers);
+            return View(ps.getDisplayPlayers());
         }
 
 
@@ -42,39 +42,23 @@ namespace TeamMVC.Controllers
             return View(new CreatePlayer());
         }
 
-        //[HttpPost]
-        //public ActionResult Create(CreatePlayer createPlayer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        createPlayer.player.TeamId = ts.GetTeamIdByTeamName(createPlayer.Team);
-        //        ps.Create(createPlayer.player);
-        //    }
-        //    return RedirectToAction("Index");
-        //}
-
         // POST: Player/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             try
             {
-                ps.InsertPlayer.Prename = collection[1].ToString();
-                ps.InsertPlayer.Prename = collection["player.Prename"].ToString();
+                ps.ImportInsertPlayer(collection["player.Prename"].ToString(),
+                    collection["player.Surname"].ToString(),
+                    Convert.ToInt32(collection["player.Number"]),
+                    ts.GetTeamIdByTeamName(Convert.ToString(collection["teamSelect"])));
+                ps.Create(ps.insertPlayer, collection["File"].ToString());
 
-                ps.InsertPlayer.Surname = collection["player.Surname"].ToString();
-                ps.InsertPlayer.Number = Convert.ToInt32(collection["player.Number"]);
-
-                ps.InsertPlayer.TeamId = ts.GetTeamIdByTeamName(Convert.ToString(collection["teamSelect"]));
-                ps.Create(ps.InsertPlayer);
-
-                var filepath = collection["File"].ToString();
-                ss.UploadElement(collection["File"].ToString(), ps.InsertPlayer.Id);
-                return RedirectToAction("Index",ps.DisplayPlayers);
+                return RedirectToAction("Index",ps.getDisplayPlayers());
             }
             catch
             {
-                return RedirectToAction("Index", ps.DisplayPlayers);
+                return RedirectToAction("Index", ps.getDisplayPlayers());
             }
         }
 

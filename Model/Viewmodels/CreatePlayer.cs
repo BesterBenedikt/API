@@ -23,7 +23,7 @@ namespace Model.Viewmodels
         public CreatePlayer()
         {
             var ts = new TeamService();
-            teamList = ts.teams;
+            teamList = ts.getTeams();
         }
 
     }

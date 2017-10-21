@@ -21,7 +21,7 @@ namespace TeamMVC.Controllers
         {
             var ts = new TeamService();
 
-            return View(ts.teams);
+            return View(ts.getTeams());
         }
 
         // GET: Team/Details/5

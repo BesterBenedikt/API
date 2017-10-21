@@ -9,19 +9,9 @@ namespace Service
 {
     public class TeamService
     {
-
-
-public List<Domain.T001_Teams> teams { get; }
-
-        public TeamService()
+        public List<T001_Teams> getTeams()
         {
-            teams = getTeams();
-
-        }
-
-        private List<Domain.T001_Teams> getTeams()
-        {
-            using (var dbc = new Domain.TeamDBEntities())
+            using (var dbc = new TeamDBEntities())
             {
                 return dbc.T001_Teams.ToList();
             }
@@ -31,9 +21,8 @@ public List<Domain.T001_Teams> teams { get; }
         {
             using (var dbc = new Domain.TeamDBEntities())
             {
-                return teams.Where(team => team.Id == id).First().Name;
+                return getTeams().Where(team => team.Id == id).First().Name;
             }
-           
         }
 
         public List<T002_Player> getPlayersByTeamId(int id)
@@ -42,16 +31,14 @@ public List<Domain.T001_Teams> teams { get; }
             {
                 return dbc.T002_Player.Where(teamPlayer => teamPlayer.TeamId == id).ToList();
             }
-            
         }
 
         public int GetTeamIdByTeamName(string name)
         {
             using (var dbc = new Domain.TeamDBEntities())
             {
-                return dbc.T001_Teams.Where(team => team.Name== name).First().Id;
+                return dbc.T001_Teams.Where(team => team.Name == name).First().Id;
             }
-
         }
     }
 }

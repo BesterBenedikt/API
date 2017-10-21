@@ -17,7 +17,7 @@ namespace TeamAPI.Controllers
         {
             TeamService ts = new TeamService();
 
-            return ts.teams;
+            return ts.getTeams();
         }
 
         // GET api/<controller>/5
