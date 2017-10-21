@@ -44,5 +44,14 @@ public List<Domain.T001_Teams> teams { get; }
             }
             
         }
+
+        public int GetTeamIdByTeamName(string name)
+        {
+            using (var dbc = new Domain.TeamDBEntities())
+            {
+                return dbc.T001_Teams.Where(team => team.Name== name).First().Id;
+            }
+
+        }
     }
 }

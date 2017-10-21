@@ -4,16 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Service;
+using Service.StorageService;
+using Model.Viewmodels;
 
 namespace TeamMVC.Controllers
 {
     public class PlayerController : Controller
     {
+
+        PlayerService ps;
+        TeamService ts;
+        StorageService ss;
+        public PlayerController()
+        {
+            ts = new TeamService();
+            ps = new PlayerService();
+            ss = new StorageService();
+        }
         // GET: Player
         public ActionResult Index()
         {
-            var ps = new PlayerService();
-
             return View(ps.DisplayPlayers);
         }
 
@@ -26,10 +36,22 @@ namespace TeamMVC.Controllers
         }
 
         // GET: Player/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View(new CreatePlayer());
         }
+
+        //[HttpPost]
+        //public ActionResult Create(CreatePlayer createPlayer)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        createPlayer.player.TeamId = ts.GetTeamIdByTeamName(createPlayer.Team);
+        //        ps.Create(createPlayer.player);
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
         // POST: Player/Create
         [HttpPost]
@@ -37,13 +59,22 @@ namespace TeamMVC.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                ps.InsertPlayer.Prename = collection[1].ToString();
+                ps.InsertPlayer.Prename = collection["player.Prename"].ToString();
 
-                return RedirectToAction("Index");
+                ps.InsertPlayer.Surname = collection["player.Surname"].ToString();
+                ps.InsertPlayer.Number = Convert.ToInt32(collection["player.Number"]);
+
+                ps.InsertPlayer.TeamId = ts.GetTeamIdByTeamName(Convert.ToString(collection["teamSelect"]));
+                ps.Create(ps.InsertPlayer);
+
+                var filepath = collection["File"].ToString();
+                ss.UploadElement(collection["File"].ToString(), ps.InsertPlayer.Id);
+                return RedirectToAction("Index",ps.DisplayPlayers);
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index", ps.DisplayPlayers);
             }
         }
 

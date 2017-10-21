@@ -10,9 +10,9 @@ using Microsoft.WindowsAzure.Storage.Blob; // Namespace for Blob storage types
 using Microsoft.Azure; //Namespace for CloudConfigurationManager
 using System.Configuration;
 
-namespace Model.StorageService
+namespace Service.StorageService
 {
-    class StorageService
+    public class StorageService
     {
         private static  CloudStorageAccount storageAccount;
         private static CloudBlobClient blobClient;
@@ -38,6 +38,20 @@ namespace Model.StorageService
 
             blockBlob = container.GetBlockBlobReference(playerID.ToString());
             return blockBlob.Uri.ToString();
+        }
+
+        public void UploadElement(string filepath, int playerID)
+        {
+
+            // Retrieve a reference to a container.
+            container = blobClient.GetContainerReference(CloudConfigurationManager.GetSetting("PlayerContainer"));
+
+            blockBlob = container.GetBlockBlobReference(playerID.ToString());
+            // Create or overwrite the "myblob" blob with contents from a local file.
+            using (var fileStream = System.IO.File.OpenRead(@filepath))
+            {
+                blockBlob.UploadFromStream(fileStream);
+            }
         }
 
     }

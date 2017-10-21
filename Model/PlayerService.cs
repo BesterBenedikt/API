@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Domain;
-using Model.StorageService;
 
 namespace Service
 {
@@ -12,17 +11,20 @@ namespace Service
     {
         public List<T002_Player> RawPlayers { get; }
         public List<DisplayPlayer> DisplayPlayers { get; }
+        public T002_Player InsertPlayer { get; set; }
 
         public PlayerService()
         {
             RawPlayers = getRawPlayers();
             DisplayPlayers = getDisplayPlayers();
-
+            InsertPlayer = new T002_Player();
         }
 
-            private List<T002_Player> getRawPlayers()
+
+
+        private List<T002_Player> getRawPlayers()
         {
-            List<T002_Player> playerlist = new List<Domain.T002_Player>();
+            List<T002_Player> playerlist = new List<T002_Player>();
 
             using (var dbc = new TeamDBEntities())
             {
@@ -30,10 +32,20 @@ namespace Service
             }
         }
 
+        public void Create(T002_Player player)
+        {
+            using (var dbc = new TeamDBEntities())
+            {
+                dbc.T002_Player.Add(player);
+                dbc.SaveChanges();
+            }
+        }
+
+
         private List<DisplayPlayer> getDisplayPlayers()
         {
             var ts = new TeamService();
-            var ss = new StorageService();
+            var ss = new StorageService.StorageService();
             var displayPlayers = new List<DisplayPlayer>();
             foreach (var rawPlayer in RawPlayers)
             {

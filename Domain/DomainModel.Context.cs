@@ -12,7 +12,8 @@ namespace Domain
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Web.Services.Description;
+
     public partial class TeamDBEntities : DbContext
     {
         public TeamDBEntities()
@@ -29,5 +30,7 @@ namespace Domain
         public virtual DbSet<T002_Player> T002_Player { get; set; }
         public virtual DbSet<T003_Event> T003_Event { get; set; }
         public virtual DbSet<T004_Match> T004_Match { get; set; }
+
+
     }
 }
