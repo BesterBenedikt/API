@@ -31,10 +31,11 @@
             @item.TeamName    
         </td>
         <td>
-            <img src="@item.profilePictureURL" alt="Alternate Text" />
-            
+            <img src="@item.profilePictureURL" alt="Alternate Text" />         
         </td>
-
+        <td>
+            @Html.ActionLink("Details","Details", new { id = item.Id })
+        </td>
     </tr>
 }
 

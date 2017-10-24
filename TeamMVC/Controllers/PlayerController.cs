@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Service;
+using Service.Viewmodels;
 using Service.StorageService;
 using Model.Viewmodels;
 
@@ -21,29 +22,22 @@ namespace TeamMVC.Controllers
             ps = new PlayerService();
             ss = new StorageService();
         }
-        // GET: Player
+
+        [HttpGet]
         public ActionResult Index()
         {
             return View(ps.getDisplayPlayers());
         }
 
-
-
-        // GET: Player/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Player/Create
         [HttpGet]
         public ActionResult Create()
         {
             return View(new CreatePlayer());
         }
 
-        // POST: Player/Create
+       
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
         {
             try
@@ -62,19 +56,36 @@ namespace TeamMVC.Controllers
             }
         }
 
-        // GET: Player/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult Details(int id)
         {
-            return View();
+            
+            return View(ps.GetDisplayPlayer(id));
         }
 
-        // POST: Player/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+       [HttpGet]
+        public ActionResult Edit(int id)
         {
+            EditPlayer editPlayer = new EditPlayer();
+            editPlayer.ImportPlayer(id);
+            return View(editPlayer);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(FormCollection collection)
+        {
+            EditPlayer editPlayer = new EditPlayer();
+            editPlayer.Id = Convert.ToInt32(collection["Id"].ToString());
+            editPlayer.Prename = collection["Prename"].ToString();
+            editPlayer.Surname = collection["Surname"].ToString();
+            editPlayer.Number = Convert.ToInt32(collection["Number"].ToString());
+            editPlayer.TeamId = ts.GetTeamIdByTeamName(Convert.ToString(collection["teamSelect"]));
+          
             try
             {
-                // TODO: Add update logic here
+               ps.Edit(editPlayer);   
 
                 return RedirectToAction("Index");
             }
@@ -84,19 +95,14 @@ namespace TeamMVC.Controllers
             }
         }
 
-        // GET: Player/Delete/5
+   
+        
+        
         public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Player/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                ps.Delete(id);
 
                 return RedirectToAction("Index");
             }

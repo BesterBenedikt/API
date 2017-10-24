@@ -4,12 +4,13 @@ using WebGrease.Css.Extensions;
 
 public class BootstrapTeamDropDown
 {
-    public static MvcHtmlString Dropdown(string id, List<Domain.T001_Teams> selectListItems)
+    public static MvcHtmlString Dropdown(string id, List<Domain.T001_Teams> selectListItems, int selectedId = 0)
     {
-        return new MvcHtmlString(BuildDropdown(id.ToString(), selectListItems));
+
+        return new MvcHtmlString(BuildDropdown(id.ToString(), selectListItems,selectedId));
     }
 
-    private static string BuildDropdown(string id, IEnumerable<Domain.T001_Teams> items)
+    private static string BuildDropdown(string id, IEnumerable<Domain.T001_Teams> items, int selectedId)
     {
 
         var select = new TagBuilder("select")
@@ -23,14 +24,35 @@ public class BootstrapTeamDropDown
 
         foreach (var item in items)
         {
-            var option = new TagBuilder("option")
+            TagBuilder option;
+            if (item.Id == selectedId)
             {
-                Attributes =
+                option = new TagBuilder("option")
+
+                {
+                    Attributes =
+            {
+                {"id", item.Id.ToString()},
+                 {"value", item.Name},
+                        {"selected", "selected" }
+
+            }
+                };
+            }
+
+            else
+            {
+                option = new TagBuilder("option")
+
+                {
+                    Attributes =
             {
                 {"id", item.Id.ToString()},
                  {"value", item.Name}
 
             }
+                };
+
 
             };
 

@@ -26,5 +26,7 @@ namespace Model.Viewmodels
             teamList = ts.getTeams();
         }
 
+        
+
     }
 }

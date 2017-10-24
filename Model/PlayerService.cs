@@ -35,6 +35,7 @@ namespace Service
             }
         }
 
+        
         public void Create(T002_Player player, string imageUrl)
         {
             using (var dbc = new TeamDBEntities())
@@ -47,32 +48,72 @@ namespace Service
         }
 
 
-        public List<DisplayPlayer> getDisplayPlayers()
+        public void Edit(EditPlayer editPlayer)
+        {
+
+            T002_Player player;
+                using (var dbc = new TeamDBEntities())
+                {
+                player = dbc.T002_Player.Where(p => p.Id == editPlayer.Id).First();
+                player.Surname = editPlayer.Surname;
+                player.Prename = editPlayer.Prename;
+                player.Number = editPlayer.Number;
+                player.TeamId = editPlayer.TeamId;
+                dbc.SaveChanges();
+
+                }
+       
+        }
+
+        public void Delete(int Id)
+
+        {
+            T002_Player player;
+            using (var dbc = new TeamDBEntities())
+            {
+                player = dbc.T002_Player.Where(p => p.Id == Id).First();
+                dbc.T002_Player.Remove(player);
+                dbc.SaveChanges();
+            }
+        }
+
+
+public List<DisplayPlayer> getDisplayPlayers()
         {
 
             List<DisplayPlayer> displayPlayers = new List<DisplayPlayer>();
             foreach (var rawPlayer in getRawPlayers())
             {
-                var displayPlayer = new DisplayPlayer();
-                displayPlayer.importRawPlayer(rawPlayer);
-                displayPlayer.TeamName = ts.getTeamNameById(rawPlayer.TeamId);
-                displayPlayer.profilePictureURL = ss.getURL(rawPlayer.Id.ToString());
+                var displayPlayer = GetDisplayPlayer(rawPlayer.Id);
                 displayPlayers.Add(displayPlayer);
             }
             return displayPlayers;
         }
 
-        public T002_Player getPlayerById(int id)
+
+        public DisplayPlayer GetDisplayPlayer(int id)
         {
+            DisplayPlayer displayPlayer = new DisplayPlayer();
+            T002_Player rawPlayer = new T002_Player();
+
             using (var dbc = new TeamDBEntities())
             {
-                return dbc.T002_Player.Where(player => player.Id == id).First();
+                rawPlayer = dbc.T002_Player.Where(p => p.Id == id).First();
+
             }
+            displayPlayer.importRawPlayer(rawPlayer);
+            displayPlayer.TeamName = ts.getTeamNameById(rawPlayer.TeamId);
+            displayPlayer.profilePictureURL = ss.getURL(rawPlayer.Id.ToString());
+
+            return displayPlayer;
+ 
         }
 
         public List<T002_Player> getPlayersByTeam(T001_Teams team)
         {
             return team.T002_Player.ToList();
         }
+
+
     }
 }

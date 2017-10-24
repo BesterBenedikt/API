@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Domain;
 namespace Service.Viewmodels
 {
     public class DisplayPlayer
@@ -18,7 +18,7 @@ namespace Service.Viewmodels
 
         public string profilePictureURL { get; set; }
 
-        public void importRawPlayer(Domain.T002_Player rawPlayer)
+        public void importRawPlayer(T002_Player rawPlayer)
         {
             Id = rawPlayer.Id;
             Prename = rawPlayer.Prename;
